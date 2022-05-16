@@ -1,0 +1,20 @@
+# permissions for end users to view fabriccas.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: fabricca-viewer-role
+rules:
+- apiGroups:
+  - hlf.zhangfuli.com
+  resources:
+  - fabriccas
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - hlf.zhangfuli.com
+  resources:
+  - fabriccas/status
+  verbs:
+  - get

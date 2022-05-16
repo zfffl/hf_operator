@@ -1,0 +1,24 @@
+# permissions for end users to edit fabricorderingservices.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: fabricorderingservice-editor-role
+rules:
+- apiGroups:
+  - hlf.zhangfuli.com
+  resources:
+  - fabricorderingservices
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - hlf.zhangfuli.com
+  resources:
+  - fabricorderingservices/status
+  verbs:
+  - get

@@ -1,0 +1,167 @@
+image:
+  repository: hyperledger/fabric-peer
+  tag: 2.4.1
+  pullPolicy: IfNotPresent
+
+istio:
+  port: 443
+  hosts: []
+  ingressGateway: ingressgateway
+
+dockerSocketPath: /var/run/docker.sock
+
+couchdbExporter:
+  enabled: false
+  image: "gesellix/couchdb-prometheus-exporter"
+  tag: "v30.0.0"
+  pullPolicy: IfNotPresent
+
+ingress:
+  enabled: false
+  annotations: { }
+  path: /
+  hosts:
+    - hlf-peer.local
+  tls: [ ]
+
+rbac:
+  ns: default
+##################################
+## Peer configuration options    #
+##################################
+peer:
+  # Type of database ("goleveldb" or "CouchDB"):
+  databaseType: CouchDB
+  ## MSP ID of the Peer
+  mspID: Org1MSP
+  gossip:
+    bootstrap: ""
+    endpoint: ""
+    externalEndpoint: ""
+    orgLeader: "false"
+    useLeaderElection: "true"
+
+  tls:
+    server:
+      enabled: "true"
+    client:
+      enabled: "false"
+
+
+# Certificate: as 'cert.pem'
+cert: ""
+
+# Private key: as 'key.pem'
+key: ""
+hosts:
+  - 192.168.39.172
+  - peer0.org1.example.com
+
+# TLS secret: as 'tls.crt' and 'tls.key'
+tls:
+  cert: ""
+  key:  ""
+
+# CA Cert: as 'cacert.pem'
+cacert: ""
+
+# TLS root CA certificate: as 'cert.pem'
+tlsrootcert: ""
+
+resources:
+  peer:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  couchdbExporter:
+    limits:
+      cpu: 300m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 64Mi
+  couchdb:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  chaincode:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+replicas: 1
+nodeSelector: { }
+
+tolerations: [ ]
+
+affinity: { }
+
+
+externalHost: peer0:443
+fullnameOverride: peer0
+hostAliases: [ ]
+service:
+  type: NodePort
+  portRequest: 7051
+  portEvent: 7053
+  portOperations: 9443
+
+persistence:
+  peer:
+    enabled: true
+    annotations: { }
+    storageClass: standard
+    accessMode: ReadWriteOnce
+    size: 0.5Gi
+  couchdb:
+    enabled: true
+    annotations: { }
+    storageClass: standard
+    accessMode: ReadWriteOnce
+    size: 0.5Gi
+  chaincode:
+    enabled: true
+    annotations: { }
+    storageClass: standard
+    accessMode: ReadWriteOnce
+    size: 0.5Gi
+logging:
+  level: debug
+  peer: debug
+  cauthdsl: warning
+  gossip: debug
+  grpc: error
+  ledger: debug
+  msp: debug
+  policies: warning
+
+externalChaincodeBuilder: false
+
+externalBuilders: [ ]
+
+
+serviceMonitor:
+  ## If true, a ServiceMonitor CRD is created for a prometheus operator
+  ## https://github.com/coreos/prometheus-operator
+  ##
+  enabled: true
+  namespace: monitoring
+  labels: { }
+  interval: 10s
+  scrapeTimeout: 10s
+  scheme: http
+  relabelings: [ ]
+  targetLabels: [ ]
+  metricRelabelings: [ ]
+  sampleLimit: 0
+
+couchdbUsername: "couchdb"
+couchdbPassword: "couchdb"

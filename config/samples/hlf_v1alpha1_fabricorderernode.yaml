@@ -1,0 +1,7 @@
+apiVersion: hlf.zhangfuli.com/v1alpha1
+kind: FabricOrdererNode
+metadata:
+  name: fabricorderernode-sample
+spec:
+  # Add fields here
+  foo: bar

@@ -1,0 +1,16 @@
+domain: zhangfuli.com
+repo: HFOperator
+resources:
+- group: hlf
+  kind: FabricCA
+  version: v1alpha1
+- group: hlf
+  kind: FabricPeer
+  version: v1alpha1
+- group: hlf
+  kind: FabricOrderer
+  version: v1alpha1
+- group: hlf
+  kind: FabricChaincode
+  version: v1alpha1
+version: "2"
